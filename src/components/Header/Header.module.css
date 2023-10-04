@@ -1,0 +1,53 @@
+.navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+.logo {
+  font-weight: 500;
+  letter-spacing: -2px;
+}
+.searchBar {
+  display: flex;
+  align-items: center;
+  padding: 7px 10px;
+  background-color: white;
+  border-radius: 5px;
+}
+.locationSearchInput {
+  border: none;
+  margin-left: 10px;
+  width: 240px;
+  outline: none;
+}
+.dayTime {
+  font-weight: 600;
+}
+.darkModeBtn {
+  background: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border: none;
+}
+
+.darkModeBtnIcon {
+  font-size: 1.5rem;
+}
+
+@media only screen and (max-width: 600px) {
+  .navigation {
+    gap: 1rem;
+  }
+  .locationSearchInput {
+    width: auto;
+  }
+}
+@media only screen and (max-width: 400px) {
+  .navigation {
+    justify-content: center;
+  }
+}

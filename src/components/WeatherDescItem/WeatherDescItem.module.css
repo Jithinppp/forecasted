@@ -1,0 +1,15 @@
+.weatherDetails {
+  flex-grow: 1;
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 10px;
+}
+.WeatherDetailsTitle {
+  font-weight: 500;
+  letter-spacing: -1px;
+  font-size: 1.2rem;
+}
+.weatherDetailsValue {
+  font-size: 2rem;
+  font-weight: 600;
+}

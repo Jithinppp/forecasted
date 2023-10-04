@@ -1,0 +1,9 @@
+.weatherDetailsContainer {
+  margin-top: 2.5rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-left: auto;
+  margin-right: auto;
+  gap: 1rem;
+}

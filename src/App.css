@@ -1,0 +1,15 @@
+.App {
+  min-height: 100vh;
+  color: #272a2f;
+  max-width: 1200px;
+  margin: auto;
+  margin-top: 1.4rem;
+  padding: 0 0.8rem;
+}
+body::-webkit-scrollbar {
+  display: none;
+}
+/* background #f5f2ed
+ icons #e1c38b
+ text #272a2f
+*/
