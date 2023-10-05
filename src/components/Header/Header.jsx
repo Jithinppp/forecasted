@@ -1,6 +1,7 @@
 // packages
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { ForecastContext } from "../../context/ForecastContext";
+import { debounce } from "lodash";
 
 // styles
 import styles from "./Header.module.css";
@@ -11,26 +12,72 @@ import Clock from "../Clock/Clock";
 
 function Header() {
   // ctx
-  const { loading } = useContext(ForecastContext);
+  const {
+    loading,
+    searchInput,
+    setSearchInput,
+    suggestionData,
+    setSuggestionData,
+    setSearch,
+    setErrorText,
+    errorText,
+    setWeatherData,
+    setSuggestionLoading,
+  } = useContext(ForecastContext);
 
-  // const fetchInputLocation = async (i) => {
-  //   // setLoading(true);
-  //   const res = await fetch(
-  //     `https://weatherapi-com.p.rapidapi.com/current.json?q=${i}`,
-  //     {
-  //       method: "GET",
-  //       headers: {},
-  //     }
-  //   );
-  //   const data = await res.json();
-  // };
+  const fetchInputLocation = async (query) => {
+    setErrorText(false);
+    setSearch(true);
+    setSuggestionLoading(true);
 
-  // handle location search function
-  const searchLocationHandler = (e) => {
+    try {
+      const res = await fetch(`${import.meta.env.VITE_URI}?q=${query}`, {
+        headers: {
+          "X-RapidAPI-Key": import.meta.env.VITE_XRapidApiKey,
+          "X-RapidAPI-Host": import.meta.env.VITE_XRapidApiHost,
+        },
+      });
+      if (!res.ok) {
+        throw new Error("bad request");
+      }
+      const data = await res.json();
+      const d = {
+        locationName: data.location.name,
+        country: data.location.country,
+        cords: { lat: data.location.lat, lon: data.location.lon },
+        localTime: data.location.localtime,
+        localTimeEpoch: data.location.localtime_epoch,
+        temp: data.current.temp_c,
+        tempFeelsLike: data.current.feelslike_c,
+        pressure: data.current.pressure_in,
+        humidity: data.current.humidity,
+        windSpeed: data.current.wind_kph,
+        desc: data.current.condition.text,
+      };
+      setSuggestionLoading(false);
+      setSuggestionData(d);
+    } catch (error) {
+      console.log("something went wrong", error);
+      setErrorText(true);
+      setSuggestionLoading(false);
+    }
+  };
+
+  const handleText = debounce((text) => {
+    setSearchInput(text);
+  }, 1000);
+
+  useEffect(() => {
+    if (searchInput.length >= 3) {
+      fetchInputLocation(searchInput);
+    }
+  }, [searchInput]);
+
+  const formSubmit = (e) => {
     e.preventDefault();
-    const inputLocation = e.target[0].value;
-    if (inputLocation.length > 2) {
-      // fetchInputLocation(inputLocation);
+    setSearch(false);
+    if (!errorText) {
+      setWeatherData(suggestionData);
     }
   };
 
@@ -43,7 +90,7 @@ function Header() {
           <FaCloudRain style={{ marginLeft: "10px" }} />
         </h2>
         {/* location search form */}
-        <form onSubmit={searchLocationHandler} className={styles.searchBar}>
+        <form className={styles.searchBar} onSubmit={formSubmit}>
           <FiSearch height={20} width={20} />
           <input
             type="text"
@@ -51,8 +98,11 @@ function Header() {
             required
             minLength={2}
             className={styles.locationSearchInput}
+            onChange={(e) => handleText(e.target.value)}
           />
-          <button type="submit" hidden></button>
+          <button type="submit" hidden>
+            submit
+          </button>
         </form>
         {/* time */}
         {loading ? (

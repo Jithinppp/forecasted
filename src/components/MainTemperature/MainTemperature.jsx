@@ -12,12 +12,7 @@ function MainTemperature() {
   } = useContext(ForecastContext);
 
   return (
-    <div
-      className={styles.mainTemperatureContainer}
-      style={{
-        backgroundImage: `linear-gradient(to right,rgb(246, 243, 239, 1),rgba(255, 255, 255, 0.2)),url("/src/assets/mist.jpg")`,
-      }}
-    >
+    <div className={styles.mainTemperatureContainer}>
       {loading ? (
         <Loader />
       ) : (

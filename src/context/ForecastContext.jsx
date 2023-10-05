@@ -1,15 +1,16 @@
 import { createContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
-export const ForecastContext = createContext({
-  searchLocationInput: "",
-  setSearchLocationInput: () => null,
-});
+export const ForecastContext = createContext({});
 
 export const ForecastContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
-  const [searchLocationInput, setSearchLocationInput] = useState("hello world");
   const [weatherData, setWeatherData] = useState({});
+  const [search, setSearch] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
+  const [suggestionData, setSuggestionData] = useState({});
+  const [errorText, setErrorText] = useState(false);
+  const [suggestionLoading, setSuggestionLoading] = useState(false);
 
   const getCurrentLocationWeather = async (geolocation) => {
     setLoading(true);
@@ -24,7 +25,6 @@ export const ForecastContextProvider = ({ children }) => {
     });
 
     const data = await res.json();
-    console.log(data);
     const d = {
       locationName: data.location.name,
       country: data.location.country,
@@ -47,11 +47,20 @@ export const ForecastContextProvider = ({ children }) => {
   }, []);
 
   const values = {
-    searchLocationInput,
-    setSearchLocationInput,
     weatherData,
+    setWeatherData,
+    suggestionLoading,
+    setSuggestionLoading,
     loading,
     setLoading,
+    search,
+    setSearch,
+    searchInput,
+    setSearchInput,
+    suggestionData,
+    setSuggestionData,
+    errorText,
+    setErrorText,
   };
 
   return (

@@ -1,0 +1,18 @@
+.searchSuggestionContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.suggestionDataButton {
+  background: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  border-radius: 2px;
+  border: 2px solid rgb(182, 182, 182);
+}
+.suggestionDataButton svg {
+  margin-top: 3px;
+}
